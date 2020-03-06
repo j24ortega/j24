@@ -1,0 +1,77 @@
+drop table ActorXPelicula;
+drop table Pelicula;
+drop table Rol;
+drop table ProfesionXActor;
+drop table Profesion;
+drop table Actor;
+drop table Ciudad;
+drop table Pais;
+
+
+create table Pais(
+  CodigoPais number(3) not null,
+  Nombre varchar2(20)not null,
+  primary key(CodigoPais)
+  );
+  
+  
+
+create table Ciudad(
+  CodigoCiudad number(3) not null,
+  Nombre VARCHAR2(20) not null,
+  CodigoPais number(3) not null,
+  primary key(CodigoCiudad),
+  foreign key(CodigoPais) REFERENCES Pais
+);
+
+create table Actor(
+  CodigoActor number(3) not null,
+  Nombre VARCHAR2(20) not null,
+  Apellido VARCHAR2(20) not null,
+  fechaNacimiento date not null,
+  Genero char(1) not null,
+  CodigoCiudad number(5) not null,
+  foreign key(CodigoCiudad)REFERENCES Ciudad,
+  primary key(CodigoActor)
+  
+);
+  
+
+create table Profesion(
+  CodigoProfesion number(3) not null,
+  Descripcion VARCHAR2(100) not null,
+  primary key(CodigoProfesion)
+);
+  
+create table ProfesionXActor(
+  CodigoActor number(3) not null,
+  CodigoProfesion number(3) not null,
+   primary key(CodigoActor,CodigoProfesion),
+   foreign key(CodigoActor) REFERENCES Actor,
+   foreign key(CodigoProfesion)REFERENCES Profesion
+);
+
+create table Rol(
+  CodigoRol number(3) not null,
+  NombreRol VARCHAR2(20) not null,
+  primary key(CodigoRol)
+);
+
+create table Pelicula(
+  CodigoPelicula number(3) not null,
+  titulo VARCHAR2(20) not null,
+  FechaEstreno date,
+  Duracion number(3),
+  primary key(CodigoPelicula)
+);
+
+
+create table ActorXPelicula(
+  CodigoActor number(3)not null,
+  CodigoPelicula number(3)not null,
+  CodigoRol number(3)not null,
+  foreign key(CodigoActor) REFERENCES Actor,
+  foreign key(CodigoPelicula) REFERENCES Pelicula,
+  foreign key(CodigoRol) REFERENCES Rol,
+  primary key(CodigoActor,CodigoPelicula,CodigoRol)
+);
